@@ -15,6 +15,8 @@ using System.Security.Cryptography;
 using SMDP.SMDPModels;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
+
+
 namespace SMDP.Controllers
 {
     
@@ -41,6 +43,7 @@ namespace SMDP.Controllers
             string userAgent = Request.Headers["User-Agent"].ToString();
             string method = Request.Method.ToString();
             string userr = User?.Identity.Name;
+            
 
             _logger.WriteRequest(userAgent);
             _logger.WriteKind(method);
@@ -56,12 +59,17 @@ namespace SMDP.Controllers
             string userAgent = Request.Headers["User-Agent"].ToString();
             string method = Request.Method.ToString();
             string userr = User?.Identity.Name;
+            var Fundlist = _smdps.Fund();
+
+            var json = System.Text.Json.JsonSerializer.Serialize(Fundlist);
+
 
             _logger.WriteRequest(userAgent);
             _logger.WriteKind(method);
             _logger.GetUser(userr);
+            _logger.WriteResponse(json);
            
-            return _smdps.Fund();
+            return Fundlist;
         }
       
         [ProducesResponseType(typeof(List<Industry>), 200)]
