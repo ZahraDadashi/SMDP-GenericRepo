@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 
 
+
 namespace SMDP.Controllers
 {
     
@@ -43,13 +44,16 @@ namespace SMDP.Controllers
             string userAgent = Request.Headers["User-Agent"].ToString();
             string method = Request.Method.ToString();
             string userr = User?.Identity.Name;
-            
+            var Dailypricelist = _smdps.DailyPrice(a);
+            var json = System.Text.Json.JsonSerializer.Serialize(Dailypricelist);
+
 
             _logger.WriteRequest(userAgent);
             _logger.WriteKind(method);
             _logger.GetUser(userr);
+            _logger.WriteResponse(json);
 
-            return _smdps.DailyPrice(a);
+            return Dailypricelist;
          }
 
         [ProducesResponseType(typeof(List<Fund>), 200)]
@@ -60,7 +64,6 @@ namespace SMDP.Controllers
             string method = Request.Method.ToString();
             string userr = User?.Identity.Name;
             var Fundlist = _smdps.Fund();
-
             var json = System.Text.Json.JsonSerializer.Serialize(Fundlist);
 
 
@@ -80,12 +83,16 @@ namespace SMDP.Controllers
             string userAgent = Request.Headers["User-Agent"].ToString();
             string method = Request.Method.ToString();
             string userr = User?.Identity.Name;
+            var Industrylist = _smdps.Industry();
+            var json = System.Text.Json.JsonSerializer.Serialize(Industrylist);
+
 
             _logger.WriteRequest(userAgent);
             _logger.WriteKind(method);
             _logger.GetUser(userr);
+            _logger.WriteResponse(json);
 
-            return _smdps.Industry();
+            return Industrylist;
         }
 
         [ProducesResponseType(typeof(List<Instrument>), 200)]
@@ -95,13 +102,16 @@ namespace SMDP.Controllers
             string userAgent = Request.Headers["User-Agent"].ToString();
             string method = Request.Method.ToString();
             string userr = User?.Identity.Name;
-            
+            var Instrumentlist = _smdps.Instrument();
+            var json = System.Text.Json.JsonSerializer.Serialize(Instrumentlist);
+
 
             _logger.WriteRequest(userAgent);
             _logger.WriteKind(method);
             _logger.GetUser(userr);
+            _logger.WriteResponse(json);
 
-            return _smdps.Instrument();
+            return Instrumentlist;
         }
 
         [ProducesResponseType(typeof(List<LetterType>), 200)]
@@ -111,12 +121,16 @@ namespace SMDP.Controllers
             string userAgent = Request.Headers["User-Agent"].ToString();
             string method = Request.Method.ToString();
             string userr = User?.Identity.Name;
+            var lettertypeList = _smdps.Lettertype();
+            var json = System.Text.Json.JsonSerializer.Serialize(lettertypeList);
+
 
             _logger.WriteRequest(userAgent);
             _logger.WriteKind(method);
             _logger.GetUser(userr);
-           
-            return _smdps.Lettertype();
+            _logger.WriteResponse(json);
+
+            return lettertypeList;
         }
 
     }
